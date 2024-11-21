@@ -8,6 +8,7 @@
 class DataGenerator {
 public:
     std::vector<std::vector<int>> matrix;
+    std::vector<int> symMatrix;
 
     // Funkcja generująca graf asymetryczny
     void generateDataAsymmetric(int n);
@@ -16,7 +17,7 @@ public:
     void generateDataSymmetric(int n);
 
     // Funkcja wczytująca dane z zadanego pliku
-    void loadData(std::string name);
+    void loadData(std::string name, bool sym);
 
     // Funkcja wypisująca macierz na ekranie
     void printData();

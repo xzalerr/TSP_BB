@@ -33,19 +33,25 @@ void DataGenerator::generateDataSymmetric(int n) {
      * dane są symetryczne więc [i][j] ma być równe [j][i]
      */
     for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            if(i == j) {
-                this->matrix[i][j] = -1;
-            } else {
-                int r = dist(gen);
-                this->matrix[i][j] = r;
-                this->matrix[j][i] = r;
-            }
+        for(int j = i; j < n; j++) {
+            int r = dist(gen);
+            this->matrix[i][j] = r;
+            this->matrix[j][i] = r;
+        }
+        this->matrix[i][i] = -1;
+    }
+    symMatrix.clear();
+    symMatrix.resize((n*n-n)/2, 0);
+    int count = 0;
+    for(int i = 0; i < n; i++) {
+        for(int j = i+1; j < n; j++) {
+            symMatrix[count] = matrix[i][j];
+            count++;
         }
     }
 }
 
-void DataGenerator::loadData(std::string name) {
+void DataGenerator::loadData(std::string name, bool sym) {
     // Otwórz plik o zadanej nazwie
     std::fstream input(name);
 
@@ -66,14 +72,24 @@ void DataGenerator::loadData(std::string name) {
         }
     }
     input.close();
+    if(sym) {
+        symMatrix.clear();
+        symMatrix.resize((n*n-n)/2, 0);
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = i+1; j < n; j++) {
+                symMatrix[count] = matrix[i][j];
+                count++;
+            }
+        }
+    }
 }
 
 void DataGenerator::printData() {
     int n = this->matrix.size();
     int m = this->matrix[0].size();
-    // Wypisz po kolei wartości macierzy
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < m; j++) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
             std::cout << std::setw(3) << matrix[i][j] << " ";
         }
         std::cout << "\n";
