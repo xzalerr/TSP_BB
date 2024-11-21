@@ -20,7 +20,7 @@ public:
     void loadData(std::string name, bool sym);
 
     // Funkcja wypisująca macierz na ekranie
-    void printData();
+    void printData(bool sym);
 };
 
 

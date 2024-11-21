@@ -35,7 +35,7 @@ int main() {
 //    duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 //    std::cout << "Minimalna wartosc sciezki znaleziona przez bfsZ: " << ps.getBfsZBest() << "\n";
 //    std::cout << "Czas wykonania BFSz: " << duration << " ms\n";
-    dg.printData();
+    dg.printData(true);
 
     return 0;
 }

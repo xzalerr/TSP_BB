@@ -27,27 +27,10 @@ void DataGenerator::generateDataSymmetric(int n) {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(1, 100);
     // Wyczyść graf i zredefiniuj jego rozmiar
-    matrix.clear();
-    matrix.resize(n, std::vector<int>(n));
-    /* Przypisz do grafu losowe wartości, poza przekątną gdzie jest -1
-     * dane są symetryczne więc [i][j] ma być równe [j][i]
-     */
-    for(int i = 0; i < n; i++) {
-        for(int j = i; j < n; j++) {
-            int r = dist(gen);
-            this->matrix[i][j] = r;
-            this->matrix[j][i] = r;
-        }
-        this->matrix[i][i] = -1;
-    }
     symMatrix.clear();
-    symMatrix.resize((n*n-n)/2, 0);
-    int count = 0;
-    for(int i = 0; i < n; i++) {
-        for(int j = i+1; j < n; j++) {
-            symMatrix[count] = matrix[i][j];
-            count++;
-        }
+    int size = (n*n-n)/2;
+    for(int i = 0; i < size; i++) {
+        symMatrix.emplace_back(dist(gen));
     }
 }
 
@@ -85,13 +68,32 @@ void DataGenerator::loadData(std::string name, bool sym) {
     }
 }
 
-void DataGenerator::printData() {
-    int n = this->matrix.size();
-    int m = this->matrix[0].size();
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            std::cout << std::setw(3) << matrix[i][j] << " ";
+void DataGenerator::printData(bool sym) {
+    if (!sym) {
+        int n = this->matrix.size();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                std::cout << std::setw(3) << matrix[i][j] << " ";
+            }
+            std::cout << "\n";
         }
-        std::cout << "\n";
+    } else {
+        int n = 1;
+        while((n*n-n)/2 < symMatrix.size()) n++;
+        int index = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    std::cout << std::setw(3) << -1 << " ";
+                } else if (i < j) {
+                    std::cout << std::setw(3) << symMatrix[index++] << " ";
+                } else {
+                    std::cout << std::setw(4) << " ";
+                }
+            }
+            std::cout << "\n";
+        }
     }
 }
+
