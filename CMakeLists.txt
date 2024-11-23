@@ -12,6 +12,10 @@ add_executable(TSP_BB main.cpp
         Config.h
         Runner.cpp
         Runner.h
+        Vector.h
+        Stack.h
+        Queue.h
+        PriorityQueue.h
 )
 
 include(FetchContent)

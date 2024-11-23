@@ -1,5 +1,0 @@
-/Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-release/CMakeFiles/TSP_BB.dir
-/Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-release/CMakeFiles/edit_cache.dir
-/Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-release/CMakeFiles/rebuild_cache.dir
-/Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-release/_deps/json-build/CMakeFiles/edit_cache.dir
-/Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-release/_deps/json-build/CMakeFiles/rebuild_cache.dir

@@ -4,14 +4,52 @@
 #include <random>
 #include <iomanip>
 
+DataGenerator::~DataGenerator() {
+    deallocateMatrix();
+    deallocateSymMatrix();
+}
+
+void DataGenerator::allocateMatrix(int n) {
+    deallocateMatrix();
+    this->matrixSize = n;
+    matrix = new int*[n];
+    for(int i = 0; i < n; i++) {
+        matrix[i] = new int[n];
+    }
+}
+
+void DataGenerator::allocateSymMatrix(int n) {
+    deallocateSymMatrix();
+    this->matrixSize = n;
+    symMatrix = new int[(n*n-n)/2];
+}
+
+void DataGenerator::deallocateMatrix() {
+    if (matrix != nullptr) {
+        for (int i = 0; i < matrixSize; i++) {
+            delete[] matrix[i];
+        }
+        delete[] matrix;
+        matrix = nullptr;
+        matrixSize = 0;
+    }
+}
+
+void DataGenerator::deallocateSymMatrix() {
+    if (symMatrix != nullptr) {
+        delete[] symMatrix;
+        symMatrix = nullptr;
+    }
+    matrixSize = 0;
+}
+
 void DataGenerator::generateDataAsymmetric(int n) {
     // Utwórz generator losowych liczb z zakresu 1 - 100
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(1, 100);
     // Wyczyść graf i zredefiniuj jego rozmiar
-    matrix.clear();
-    matrix.resize(n, std::vector<int>(n));
+    allocateMatrix(n);
     // Przypisz do grafu losowe wartości, poza przekątną gdzie jest -1
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
@@ -27,27 +65,25 @@ void DataGenerator::generateDataSymmetric(int n) {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(1, 100);
     // Wyczyść graf i zredefiniuj jego rozmiar
-    symMatrix.clear();
-    int size = (n*n-n)/2;
-    for(int i = 0; i < size; i++) {
-        symMatrix.emplace_back(dist(gen));
+    allocateSymMatrix(n);
+    for(int i = 0; i < (n*n-n)/2; i++) {
+        symMatrix[i] = dist(gen);
     }
 }
 
-void DataGenerator::loadData(std::string name, bool sym) {
+int DataGenerator::loadData(std::string name, bool sym) {
     // Otwórz plik o zadanej nazwie
     std::fstream input(name);
 
     if(!input.is_open()) {
         std::cerr << "Nie udało się zlokalizować pliku o podanej nazwie!\n";
-        return;
+        return -1;
     }
     // Z pierwszej linii wczytaj rozmiar instancji
     int n;
     input >> n;
     // Wyczyść graf i zredefiniuj jego rozmiar
-    matrix.clear();
-    matrix.resize(n, std::vector<int>(n));
+    allocateMatrix(n);
     // Kolejne dane wczytuj w porządku wiersz po wierszu
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
@@ -56,8 +92,7 @@ void DataGenerator::loadData(std::string name, bool sym) {
     }
     input.close();
     if(sym) {
-        symMatrix.clear();
-        symMatrix.resize((n*n-n)/2, 0);
+        allocateSymMatrix(n);
         int count = 0;
         for(int i = 0; i < n; i++) {
             for(int j = i+1; j < n; j++) {
@@ -65,12 +100,14 @@ void DataGenerator::loadData(std::string name, bool sym) {
                 count++;
             }
         }
+        deallocateMatrix();
     }
+    return n;
 }
 
 void DataGenerator::printData(bool sym) {
     if (!sym) {
-        int n = this->matrix.size();
+        int n = this->matrixSize;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 std::cout << std::setw(3) << matrix[i][j] << " ";
@@ -79,7 +116,7 @@ void DataGenerator::printData(bool sym) {
         }
     } else {
         int n = 1;
-        while((n*n-n)/2 < symMatrix.size()) n++;
+        while((n*n-n)/2 < this->matrixSize) n++;
         int index = 0;
 
         for (int i = 0; i < n; i++) {

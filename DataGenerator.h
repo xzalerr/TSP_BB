@@ -7,8 +7,12 @@
 // Klasa do generowania losowych grafów
 class DataGenerator {
 public:
-    std::vector<std::vector<int>> matrix;
-    std::vector<int> symMatrix;
+    int** matrix;
+    int* symMatrix;
+    int matrixSize;
+
+    DataGenerator() : matrix(nullptr), symMatrix(nullptr) {}
+    ~DataGenerator();
 
     // Funkcja generująca graf asymetryczny
     void generateDataAsymmetric(int n);
@@ -17,10 +21,15 @@ public:
     void generateDataSymmetric(int n);
 
     // Funkcja wczytująca dane z zadanego pliku
-    void loadData(std::string name, bool sym);
+    int loadData(std::string name, bool sym);
 
     // Funkcja wypisująca macierz na ekranie
     void printData(bool sym);
+private:
+    void allocateMatrix(int n);
+    void deallocateMatrix();
+    void allocateSymMatrix(int n);
+    void deallocateSymMatrix();
 };
 
 

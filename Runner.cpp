@@ -9,26 +9,26 @@ Runner::Runner(Config& config, DataGenerator& generator, ProblemSolver& ps) {
     this->ps = ps;
 }
 
-double Runner::measureDfs(int &minCost) {
+double Runner::measureDfs(int &minCost, int size) {
     // Zmierz czas przed i po wykonaniu funkcji i oblicz różnice w ms
     auto start = std::chrono::high_resolution_clock::now();
-    minCost = ps.dfs(generator.matrix);
+    minCost = ps.dfs(generator.matrix, size);
     auto end = std::chrono::high_resolution_clock::now();
     return std::chrono::duration<double, std::milli>(end - start).count();
 }
 
-double Runner::measureBfs(int &minCost) {
+double Runner::measureBfs(int &minCost, int size) {
     // Zmierz czas przed i po wykonaniu funkcji i oblicz różnice w ms
     auto start = std::chrono::high_resolution_clock::now();
-    minCost = ps.bfs(generator.matrix);
+    minCost = ps.bfs(generator.matrix, size);
     auto end = std::chrono::high_resolution_clock::now();
     return std::chrono::duration<double, std::milli>(end - start).count();
 }
 
-double Runner::measureBfsZ(int &minCost) {
+double Runner::measureBfsZ(int &minCost, int size) {
     // Zmierz czas przed i po wykonaniu funkcji i oblicz różnice w ms
     auto start = std::chrono::high_resolution_clock::now();
-    minCost = ps.bfsZ(generator.matrix);
+    minCost = ps.bfsZ(generator.matrix, size);
     auto end = std::chrono::high_resolution_clock::now();
     return std::chrono::duration<double, std::milli>(end - start).count();
 }
@@ -39,30 +39,33 @@ void Runner::executeTest() {
      * W przeciwnym wypadku wczytaj
      */
     bool sym;
+    int size;
     if (config.generateRandom) {
         if (config.randomType == "symmetric") {
             generator.generateDataSymmetric(config.generatorProblemSize);
             sym = true;
+            size = config.generatorProblemSize;
         } else {
             generator.generateDataAsymmetric(config.generatorProblemSize);
             sym = false;
+            size = config.generatorProblemSize;
         }
         generator.printData(sym);
     } else {
         if (config.randomType == "symmetric") {
             sym = true;
-            generator.loadData(config.dataFile, sym);
+            size = generator.loadData(config.dataFile, sym);
         } else {
             sym = false;
-            generator.loadData(config.dataFile, sym);
+            size = generator.loadData(config.dataFile, sym);
         }
         generator.printData(sym);
     }
     // Oblicz czasy i wyniki algorytmów i wypisz na ekranie
     int minCostDfs, minCostBfs, minCostBfsZ;
-    double timeDfs = measureDfs(minCostDfs);
-    double timeBfs = measureBfs(minCostBfs);
-    double timeBfsZ = measureBfsZ(minCostBfsZ);
+    double timeDfs = measureDfs(minCostDfs, size);
+    double timeBfs = measureBfs(minCostBfs, size);
+    double timeBfsZ = measureBfsZ(minCostBfsZ, size);
     std::cout << "Minimum Cost (DFS): " << minCostDfs << " [czas: " << timeDfs << " ms]" << std::endl;
     std::cout << "Minimum Cost (BFS): " << minCostBfs << " [czas: " << timeBfs << " ms]" << std::endl;
     std::cout << "Minimum Cost (BFSZ): " << minCostBfsZ << " [czas: " << timeBfsZ << " ms]" << std::endl;
@@ -98,9 +101,9 @@ void Runner::executeSimulation() {
             int minCostBfs = 0;
             int minCostBfsZ = 0;
 
-            double durationDfs = measureDfs(minCostDfs);
-            double durationBfs = measureBfs(minCostBfs);
-            double durationBfsZ = measureBfsZ(minCostBfsZ);
+            double durationDfs = measureDfs(minCostDfs, size);
+            double durationBfs = measureBfs(minCostBfs, size);
+            double durationBfsZ = measureBfsZ(minCostBfsZ, size);
 
 
             resultsDfs[size].emplace_back(durationDfs);
