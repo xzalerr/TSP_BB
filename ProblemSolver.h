@@ -23,10 +23,15 @@ class ProblemSolver {
 public:
     // funckja do obliczania granicy
     int calculateBound(int** matrix, bool* visited, int size);
+    int calculateBoundSym(int* symMatrix, bool* visited, int size);
+    int getSymIndex(int i, int j, int n);
     // funckja do przechodzenia grafu wglab i sprawdzania wagi sciezki
     int dfs(int** matrix, int size);
+    int dfsSym(int* symMatrix, int size);
     int bfs(int** matrix, int size);
+    int bfsSym(int* symMatrix, int size);
     int bfsZ(int** matrix, int size);
+    int bfsZSym(int* symMatrix, int size);
 };
 
 

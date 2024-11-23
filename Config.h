@@ -12,7 +12,7 @@ public:
     std::string dataFile;
     bool generateRandom;
     int generatorProblemSize;
-    std::string randomType;
+    std::string testType;
 
     std::vector<int> problemSizes;
     std::string matrixType;

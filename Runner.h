@@ -17,13 +17,13 @@ public:
     Runner(Config& config, DataGenerator& generator, ProblemSolver& ps);
 
     // Mierzy czas wykonania algorytmu przeglądu zupełnego
-    double measureDfs(int& minCost, int size);
+    double measureDfs(int& minCost, int size, bool sym);
 
     // Mierzy czas wykonania algorytmu najbliższych sąsiadów
-    double measureBfs(int& minCost, int size);
+    double measureBfs(int& minCost, int size, bool sym);
 
     // Mierzy czas wykonania algorytmu losowego
-    double measureBfsZ(int& minCost, int size);
+    double measureBfsZ(int& minCost, int size, bool sym);
 
     // Wykonuje program gdy wybrano tryb "test"
     void executeTest();

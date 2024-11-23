@@ -24,7 +24,7 @@ void Config::loadData(const std::string& fileName) {
         dataFile = testData.at("dataFile").get<std::string>();
         generateRandom = testData.at("generateRandom").get<bool>();
         generatorProblemSize = testData.at("generatorProblemSize").get<int>();
-        randomType = testData.at("randomType").get<std::string>();
+        testType = testData.at("testType").get<std::string>();
     } else if(mode=="simulation") {
         const auto& simData = data.at("simulation");
         problemSizes = simData.at("problemSizes").get<std::vector<int>>();

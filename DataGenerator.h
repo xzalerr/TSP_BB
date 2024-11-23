@@ -10,6 +10,7 @@ public:
     int** matrix;
     int* symMatrix;
     int matrixSize;
+    int symMatrixSize;
 
     DataGenerator() : matrix(nullptr), symMatrix(nullptr) {}
     ~DataGenerator();

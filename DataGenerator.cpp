@@ -22,6 +22,7 @@ void DataGenerator::allocateSymMatrix(int n) {
     deallocateSymMatrix();
     this->matrixSize = n;
     symMatrix = new int[(n*n-n)/2];
+    symMatrixSize = (n*n-n)/2;
 }
 
 void DataGenerator::deallocateMatrix() {
@@ -40,7 +41,7 @@ void DataGenerator::deallocateSymMatrix() {
         delete[] symMatrix;
         symMatrix = nullptr;
     }
-    matrixSize = 0;
+    symMatrixSize = 0;
 }
 
 void DataGenerator::generateDataAsymmetric(int n) {
@@ -116,7 +117,7 @@ void DataGenerator::printData(bool sym) {
         }
     } else {
         int n = 1;
-        while((n*n-n)/2 < this->matrixSize) n++;
+        while((n*n-n)/2 < this->symMatrixSize) n++;
         int index = 0;
 
         for (int i = 0; i < n; i++) {
