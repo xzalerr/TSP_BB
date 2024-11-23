@@ -14,17 +14,9 @@ public:
     // funckja do obliczania granicy
     int calculateBound(std::vector<std::vector<int>>& matrix, std::vector<bool>& visited);
     // funckja do przechodzenia grafu wglab i sprawdzania wagi sciezki
-    void dfs(std::vector<std::vector<int>>& matrix, int curr, int depth, int cost, std::vector<bool>& visited);
-    void solveDfs(std::vector<std::vector<int>>& matrix);
-    int getDfsBest();
-    void bfs(std::vector<std::vector<int>>& matrix);
-    int getBfsBest();
-    void bfsZ(std::vector<std::vector<int>>& matrix);
-    int getBfsZBest();
-private:
-    int dfsCost;
-    int bfsCost;
-    int bfsZCost;
+    int dfs(std::vector<std::vector<int>>& matrix);
+    int bfs(std::vector<std::vector<int>>& matrix);
+    int bfsZ(std::vector<std::vector<int>>& matrix);
 };
 
 

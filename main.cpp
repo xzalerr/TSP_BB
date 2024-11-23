@@ -1,41 +1,25 @@
 #include <iostream>
+#include <chrono>
 #include "DataGenerator.h"
 #include "ProblemSolver.h"
-#include <iostream>
-#include <chrono>
+#include "Config.h"
+#include "Runner.h"
 
 int main() {
-    DataGenerator dg;
-//    ProblemSolver ps;
+    Config config;
+    config.loadData("/Users/rafalzalecki/CLionProjects/TSP_BB/config.json");
 
-    // Opcjonalne ładowanie danych z pliku
-//     dg.loadData("/Users/rafalzalecki/CLionProjects/TravellingSalesmanProblemBruteForce/matrix_4x4.atsp", true);
-    dg.generateDataSymmetric(15);
+    DataGenerator generator;
+    ProblemSolver ps;
+    Runner runner(config, generator, ps);
 
-//    // Mierzenie czasu dla DFS
-//    auto start = std::chrono::high_resolution_clock::now();
-//    ps.solveDfs(dg.matrix);
-//    auto end = std::chrono::high_resolution_clock::now();
-//    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-//    std::cout << "Minimalna wartosc sciezki znaleziona przez dfs: " << ps.getDfsBest() << "\n";
-//    std::cout << "Czas wykonania DFS: " << duration << " ms\n";
-//
-//    // Mierzenie czasu dla BFS
-//    start = std::chrono::high_resolution_clock::now();
-//    ps.bfs(dg.matrix);
-//    end = std::chrono::high_resolution_clock::now();
-//    duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-//    std::cout << "Minimalna wartosc sciezki znaleziona przez bfs: " << ps.getBfsBest() << "\n";
-//    std::cout << "Czas wykonania BFS: " << duration << " ms\n";
-//
-//    // Mierzenie czasu dla Best-First Search (bfsZ)
-//    start = std::chrono::high_resolution_clock::now();
-//    ps.bfsZ(dg.matrix);
-//    end = std::chrono::high_resolution_clock::now();
-//    duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-//    std::cout << "Minimalna wartosc sciezki znaleziona przez bfsZ: " << ps.getBfsZBest() << "\n";
-//    std::cout << "Czas wykonania BFSz: " << duration << " ms\n";
-    dg.printData(true);
+    if (config.mode == "test") {
+        runner.executeTest();
+    } else if (config.mode == "simulation") {
+        runner.executeSimulation();
+    } else {
+        std::cerr << "Nie ma takiej opcji!\n";
+    }
 
     return 0;
 }

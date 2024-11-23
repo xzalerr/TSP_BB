@@ -1,3 +1,5 @@
 /Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-debug/CMakeFiles/TSP_BB.dir
 /Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-debug/CMakeFiles/edit_cache.dir
 /Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-debug/_deps/json-build/CMakeFiles/edit_cache.dir
+/Users/rafalzalecki/CLionProjects/TSP_BB/cmake-build-debug/_deps/json-build/CMakeFiles/rebuild_cache.dir

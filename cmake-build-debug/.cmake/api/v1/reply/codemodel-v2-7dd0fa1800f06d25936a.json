@@ -6,6 +6,10 @@
 			[
 				{
 					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
 					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
@@ -17,12 +21,27 @@
 					[
 						0
 					]
+				},
+				{
+					"build" : "_deps/json-build",
+					"jsonFile" : "directory-_deps.json-build-Debug-1ba11ddf0eb90b54206d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "cmake-build-debug/_deps/json-src"
 				}
 			],
 			"name" : "Debug",
 			"projects" : 
 			[
 				{
+					"childIndexes" : 
+					[
+						1
+					],
 					"directoryIndexes" : 
 					[
 						0
@@ -32,6 +51,14 @@
 					[
 						0
 					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "nlohmann_json",
+					"parentIndex" : 0
 				}
 			],
 			"targets" : 
@@ -39,7 +66,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "TSP_BB::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-TSP_BB-Debug-3670f5251d50b1471a89.json",
+					"jsonFile" : "target-TSP_BB-Debug-c4358f994584059274d1.json",
 					"name" : "TSP_BB",
 					"projectIndex" : 0
 				}

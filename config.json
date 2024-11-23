@@ -1,0 +1,16 @@
+{
+  "description": "Confuguration for TSP. 'test' mode enables algorithm testing. 'simulation' does chosen algorithm on generated graphs x times",
+  "mode": "simulation",
+  "test": {
+    "dataFile": "/Users/rafalzalecki/CLionProjects/TravellingSalesmanProblemBruteForce/matrix_4x4.atsp",
+    "generateRandom": true,
+    "generatorProblemSize": 10,
+    "randomType": "asymmetric"
+  },
+  "simulation": {
+    "problemSizes": [6, 7],
+    "matrixType": "asymmetric",
+    "iterations": 3,
+    "showProgress": true
+  }
+}
