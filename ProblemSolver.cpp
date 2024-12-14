@@ -2,7 +2,10 @@
 #include <queue>
 #include <stack>
 
-int ProblemSolver::calculateBound(int** matrix, bool* visited, int size) {
+int ProblemSolver::calculateBound(int** matrix, std::vector<bool> visited, int size) {
+    /* początkowo granica wynosi 0, następnie zwiększyamy granicę o wartość średnią
+     * z wchodzących i wychodzących najmniejszych krawędzi dla każdego
+     * nieodwiedzonego wierzchołka */
     int bound = 0;
     for (int i = 0; i < size; i++) {
         if (!visited[i]) {
@@ -20,7 +23,9 @@ int ProblemSolver::calculateBound(int** matrix, bool* visited, int size) {
     return bound;
 }
 
-int ProblemSolver::calculateBoundSym(int *symMatrix, bool *visited, int size) {
+int ProblemSolver::calculateBoundSym(int *symMatrix, std::vector<bool> visited, int size) {
+    /* początkowo granica wynosi 0, następnie zwiększyamy granicę o wartość
+     * najmniejszych krawędzi wychodzących z każdego nieodwiedzonego wierzchołka */
     int bound = 0;
     for (int i = 0; i < size; i++) {
         if (!visited[i]) {
@@ -37,18 +42,16 @@ int ProblemSolver::calculateBoundSym(int *symMatrix, bool *visited, int size) {
 }
 
 int ProblemSolver::getSymIndex(int i, int j, int n) {
+    // przekształcane s współrzędne macierzy [i][j] na pojedynczy index do jednowymiarowej tablicy
     if (i > j) std::swap(i, j);
     return i * (2 * n - i - 1) / 2 + (j - i - 1);
 }
 
 int ProblemSolver::dfs(int** matrix, int size) {
     std::stack<Node> frontier;
-    bool* visited = new bool[size];
-    for(int i = 0; i < size; i++) {
-        visited[i] = false;
-    }
+    std::vector<bool> visited(size, false);
     visited[0] = true;
-    Node first(0, 0, 1, visited, size);
+    Node first(0, 0, 1, visited);
     frontier.emplace(first);
     int best = INT_MAX;
     while(!frontier.empty()) {
@@ -63,7 +66,7 @@ int ProblemSolver::dfs(int** matrix, int size) {
         for(int i = 0; i < size; i++) {
             if(!node.visit[i] && matrix[node.curr][i] != -1) {
                 node.visit[i] = true;
-                frontier.emplace(i, node.cost + matrix[node.curr][i], node.depth + 1, node.visit, size);
+                frontier.emplace(i, node.cost + matrix[node.curr][i], node.depth + 1, node.visit);
                 node.visit[i] = false;
             }
         }
@@ -73,12 +76,9 @@ int ProblemSolver::dfs(int** matrix, int size) {
 
 int ProblemSolver::dfsSym(int *symMatrix, int size) {
     std::stack<Node> frontier;
-    bool* visited = new bool[size];
-    for(int i = 0; i < size; i++) {
-        visited[i] = false;
-    }
+    std::vector<bool> visited(size, false);
     visited[0] = true;
-    Node first(0, 0, 1, visited, size);
+    Node first(0, 0, 1, visited);
     frontier.emplace(first);
     int best = INT_MAX;
     while(!frontier.empty()) {
@@ -94,7 +94,7 @@ int ProblemSolver::dfsSym(int *symMatrix, int size) {
         for(int i = 0; i < size; i++) {
             if(!node.visit[i]) {
                 node.visit[i] = true;
-                frontier.emplace(i, node.cost + symMatrix[getSymIndex(node.curr, i, size)], node.depth + 1, node.visit, size);
+                frontier.emplace(i, node.cost + symMatrix[getSymIndex(node.curr, i, size)], node.depth + 1, node.visit);
                 node.visit[i] = false;
             }
         }
@@ -104,12 +104,9 @@ int ProblemSolver::dfsSym(int *symMatrix, int size) {
 
 int ProblemSolver::bfs(int** matrix, int size) {
     std::queue<Node> frontier;
-    bool* visited = new bool[size];
-    for(int i = 0; i < size; i++) {
-        visited[i] = false;
-    }
+    std::vector<bool> visited(size, false);
     visited[0] = true;
-    Node first(0, 0, 1, visited, size);
+    Node first(0, 0, 1, visited);
     frontier.emplace(first);
     int best = INT_MAX;
     while(!frontier.empty()) {
@@ -124,7 +121,7 @@ int ProblemSolver::bfs(int** matrix, int size) {
         for(int i = 0; i < size; i++) {
             if(!node.visit[i] && matrix[node.curr][i] != -1) {
                 node.visit[i] = true;
-                frontier.emplace(i, node.cost + matrix[node.curr][i], node.depth + 1, node.visit, size);
+                frontier.emplace(i, node.cost + matrix[node.curr][i], node.depth + 1, node.visit);
                 node.visit[i] = false;
             }
         }
@@ -134,12 +131,9 @@ int ProblemSolver::bfs(int** matrix, int size) {
 
 int ProblemSolver::bfsSym(int *symMatrix, int size) {
     std::queue<Node> frontier;
-    bool* visited = new bool[size];
-    for(int i = 0; i < size; i++) {
-        visited[i] = false;
-    }
+    std::vector<bool> visited(size, false);
     visited[0] = true;
-    Node first(0, 0, 1, visited, size);
+    Node first(0, 0, 1, visited);
     frontier.emplace(first);
     int best = INT_MAX;
     while(!frontier.empty()) {
@@ -155,7 +149,7 @@ int ProblemSolver::bfsSym(int *symMatrix, int size) {
         for(int i = 0; i < size; i++) {
             if(!node.visit[i]) {
                 node.visit[i] = true;
-                frontier.emplace(i, node.cost + symMatrix[getSymIndex(node.curr, i, size)], node.depth + 1, node.visit, size);
+                frontier.emplace(i, node.cost + symMatrix[getSymIndex(node.curr, i, size)], node.depth + 1, node.visit);
                 node.visit[i] = false;
             }
         }
@@ -168,12 +162,9 @@ int ProblemSolver::bfsZ(int** matrix, int size) {
         return n1.cost > n2.cost;
     };
     std::priority_queue<Node, std::vector<Node>, decltype(compBfsZ)> frontier(compBfsZ);
-    bool* visited = new bool[size];
-    for(int i = 0; i < size; i++) {
-        visited[i] = false;
-    }
+    std::vector<bool> visited(size, false);
     visited[0] = true;
-    Node first(0, 0, 1, visited, size);
+    Node first(0, 0, 1, visited);
     frontier.emplace(first);
     int best = INT_MAX;
     while(!frontier.empty()) {
@@ -188,7 +179,7 @@ int ProblemSolver::bfsZ(int** matrix, int size) {
         for(int i = 0; i < size; i++) {
             if(!node.visit[i] && matrix[node.curr][i] != -1) {
                 node.visit[i] = true;
-                frontier.emplace(i, node.cost + matrix[node.curr][i], node.depth + 1, node.visit, size);
+                frontier.emplace(i, node.cost + matrix[node.curr][i], node.depth + 1, node.visit);
                 node.visit[i] = false;
             }
         }
@@ -201,12 +192,9 @@ int ProblemSolver::bfsZSym(int *symMatrix, int size) {
         return n1.cost > n2.cost;
     };
     std::priority_queue<Node, std::vector<Node>, decltype(compBfsZ)> frontier(compBfsZ);
-    bool* visited = new bool[size];
-    for(int i = 0; i < size; i++) {
-        visited[i] = false;
-    }
+    std::vector<bool> visited(size, false);
     visited[0] = true;
-    Node first(0, 0, 1, visited, size);
+    Node first(0, 0, 1, visited);
     frontier.emplace(first);
     int best = INT_MAX;
     while(!frontier.empty()) {
@@ -222,7 +210,7 @@ int ProblemSolver::bfsZSym(int *symMatrix, int size) {
         for(int i = 0; i < size; i++) {
             if(!node.visit[i]) {
                 node.visit[i] = true;
-                frontier.emplace(i, node.cost + symMatrix[getSymIndex(node.curr, i, size)], node.depth + 1, node.visit, size);
+                frontier.emplace(i, node.cost + symMatrix[getSymIndex(node.curr, i, size)], node.depth + 1, node.visit);
                 node.visit[i] = false;
             }
         }
