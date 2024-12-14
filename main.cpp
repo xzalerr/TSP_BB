@@ -5,9 +5,12 @@
 #include "Config.h"
 #include "Runner.h"
 
+namespace fs = std::filesystem;
+
 int main() {
     Config config;
-    config.loadData("/Users/rafalzalecki/CLionProjects/TSP_BB/config.json");
+    std::string path = CONFIG_FILE_PATH;
+    config.loadData(path);
 
     DataGenerator generator;
     ProblemSolver ps;

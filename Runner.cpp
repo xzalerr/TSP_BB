@@ -111,7 +111,6 @@ void Runner::executeSimulation() {
             double durationBfs = measureBfs(minCostBfs, size, sym);
             double durationBfsZ = measureBfsZ(minCostBfsZ, size, sym);
 
-
             resultsDfs[size].emplace_back(durationDfs);
             resultsBfs[size].emplace_back(durationBfs);
             resultsBfsZ[size].emplace_back(durationBfsZ);

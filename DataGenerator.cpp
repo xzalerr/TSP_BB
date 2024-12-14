@@ -10,7 +10,9 @@ DataGenerator::~DataGenerator() {
 }
 
 void DataGenerator::allocateMatrix(int n) {
+    // zwalniamy pamięć jeśli macierz już jakąś zajmowała wcześniej
     deallocateMatrix();
+    // tworzymy dynamicznie tablice tablic o rozmiarze n
     this->matrixSize = n;
     matrix = new int*[n];
     for(int i = 0; i < n; i++) {
@@ -19,13 +21,16 @@ void DataGenerator::allocateMatrix(int n) {
 }
 
 void DataGenerator::allocateSymMatrix(int n) {
+    // zwalniamy pamięć jeśli macierz już jakąś zajmowała wcześniej
     deallocateSymMatrix();
+    // tworzymy dynamicznie tablice o rozmiarze (n*n-n)/2, tyle potrzeba aby zmieścić górną połowę macierzy
     this->matrixSize = n;
     symMatrix = new int[(n*n-n)/2];
     symMatrixSize = (n*n-n)/2;
 }
 
 void DataGenerator::deallocateMatrix() {
+    // jeśli macierz istnieje to usuwamy tablice z tablicy głównej, a następnie usuwamy tą tablice a wskaźnik ustawiamy na null
     if (matrix != nullptr) {
         for (int i = 0; i < matrixSize; i++) {
             delete[] matrix[i];
@@ -37,6 +42,7 @@ void DataGenerator::deallocateMatrix() {
 }
 
 void DataGenerator::deallocateSymMatrix() {
+    // jeśli macierz istnieje to usuwamy tablice, a wskaźnik ustawiamy na null
     if (symMatrix != nullptr) {
         delete[] symMatrix;
         symMatrix = nullptr;
@@ -49,7 +55,7 @@ void DataGenerator::generateDataAsymmetric(int n) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(1, 100);
-    // Wyczyść graf i zredefiniuj jego rozmiar
+    // Zaalokuj odpowienią ilość miejsca w pamięci
     allocateMatrix(n);
     // Przypisz do grafu losowe wartości, poza przekątną gdzie jest -1
     for(int i = 0; i < n; i++) {
@@ -65,7 +71,7 @@ void DataGenerator::generateDataSymmetric(int n) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(1, 100);
-    // Wyczyść graf i zredefiniuj jego rozmiar
+    // Zaalokuj odpowienią ilość miejsca w pamięci
     allocateSymMatrix(n);
     for(int i = 0; i < (n*n-n)/2; i++) {
         symMatrix[i] = dist(gen);
@@ -92,6 +98,7 @@ int DataGenerator::loadData(std::string name, bool sym) {
         }
     }
     input.close();
+    // Jeśli macierz jest symetryczna to przepisz górną połowę z dwuwymiarowej do jednowymiarowej i usuń dwuwymiarową
     if(sym) {
         allocateSymMatrix(n);
         int count = 0;
@@ -107,6 +114,7 @@ int DataGenerator::loadData(std::string name, bool sym) {
 }
 
 void DataGenerator::printData(bool sym) {
+    // jeśli macierz asymetryczna to wypisz po kolei wartości macierzy
     if (!sym) {
         int n = this->matrixSize;
         for (int i = 0; i < n; i++) {
@@ -115,6 +123,10 @@ void DataGenerator::printData(bool sym) {
             }
             std::cout << "\n";
         }
+        /* jeśli symetryczna to na przekątnych wypisz -1,
+         * na górnej połowie kolejne wartości,
+         * a na dolnej połowie puste miejsca
+         */
     } else {
         int n = 1;
         while((n*n-n)/2 < this->symMatrixSize) n++;

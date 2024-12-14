@@ -3,6 +3,14 @@ project(TSP_BB)
 
 set(CMAKE_CXX_STANDARD 20)
 
+set(CONFIG_FILE_PATH "${CMAKE_SOURCE_DIR}/config.json")
+if (EXISTS ${CONFIG_FILE_PATH})
+    message(STATUS "Znaleziono config.json: ${CONFIG_FILE_PATH}")
+    add_compile_definitions(CONFIG_FILE_PATH="${CONFIG_FILE_PATH}")
+else()
+    message(FATAL_ERROR "Plik config.json nie został znaleziony w ${CMAKE_SOURCE_DIR}!")
+endif()
+
 add_executable(TSP_BB main.cpp
         DataGenerator.h
         DataGenerator.cpp
@@ -12,10 +20,6 @@ add_executable(TSP_BB main.cpp
         Config.h
         Runner.cpp
         Runner.h
-        Vector.h
-        Stack.h
-        Queue.h
-        PriorityQueue.h
 )
 
 include(FetchContent)

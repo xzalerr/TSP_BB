@@ -1,5 +1,5 @@
-#ifndef TRAVELLINGSALESMANPROBLEMBRUTEFORCE_RUNNER_H
-#define TRAVELLINGSALESMANPROBLEMBRUTEFORCE_RUNNER_H
+#ifndef TSP_BB_RUNNER_H
+#define TSP_BB_RUNNER_H
 
 #include "Config.h"
 #include "DataGenerator.h"
@@ -16,13 +16,13 @@ public:
     // Konstruktor przyjmujący konfigurację, generator danych oraz solver jako argumenty
     Runner(Config& config, DataGenerator& generator, ProblemSolver& ps);
 
-    // Mierzy czas wykonania algorytmu przeglądu zupełnego
+    // Mierzy czas wykonania algorytmu dfs
     double measureDfs(int& minCost, int size, bool sym);
 
-    // Mierzy czas wykonania algorytmu najbliższych sąsiadów
+    // Mierzy czas wykonania algorytmu bfs
     double measureBfs(int& minCost, int size, bool sym);
 
-    // Mierzy czas wykonania algorytmu losowego
+    // Mierzy czas wykonania algorytmu bfsZ
     double measureBfsZ(int& minCost, int size, bool sym);
 
     // Wykonuje program gdy wybrano tryb "test"
@@ -36,4 +36,4 @@ public:
 };
 
 
-#endif //TRAVELLINGSALESMANPROBLEMBRUTEFORCE_RUNNER_H
+#endif //TSP_BB_RUNNER_H
